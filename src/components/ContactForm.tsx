@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -19,9 +19,10 @@ export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [toast, setToast] = useState<ToastState>({ visible: false, type: 'success', message: '' });
 
-  const springTransition = { type: 'spring', stiffness: 150, damping: 20 };
+  const springTransition = { type: 'spring', stiffness: 150, damping: 20 } as const;
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // React 19 native event namespaces handling union element structures flawlessly
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -33,7 +34,7 @@ export const ContactForm: React.FC = () => {
     }, 4000);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
       triggerToast('error', 'Please fill in all form fields before submitting.');
@@ -71,7 +72,7 @@ export const ContactForm: React.FC = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="John Doe"
+            placeholder="Your Name"
             className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-slate-100 transition-colors"
           />
         </div>
@@ -83,7 +84,7 @@ export const ContactForm: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            placeholder="johndoe@example.com"
+            placeholder="yourEmail@example.com"
             className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-slate-100 transition-colors"
           />
         </div>

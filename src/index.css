@@ -1,37 +1,44 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+@theme {
+  /* Wire utility namespaces to dynamic CSS custom properties */
+  --color-canvas-bg-light: var(--canvas-bg-light);
+  --color-canvas-bg-dark: var(--canvas-bg-dark);
+  
+  --color-text-main-light: var(--text-main-light);
+  --color-text-main-dark: var(--text-main-dark);
+  
+  --color-card-bg-light: var(--card-bg-light);
+  --color-card-bg-dark: var(--card-bg-dark);
+  
+  --color-border-line-light: var(--border-line-light);
+  --color-border-line-dark: var(--border-line-dark);
+}
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --border: 214.3 31.8% 91.4%;
+    --canvas-bg-light: #ffffff;
+    --canvas-bg-dark: #020617;
+    
+    --text-main-light: #0f172a;
+    --text-main-dark: #f8fafc;
+    
+    --card-bg-light: #ffffff;
+    --card-bg-dark: #0f172a;
+    
+    --border-line-light: rgba(226, 232, 240, 0.6);
+    --border-line-dark: rgba(51, 65, 85, 0.6);
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 217.2 32.6% 17.5%;
-    --border: 217.2 32.6% 17.5%;
+  html, body {
+    background-color: var(--canvas-bg-light);
+    color: var(--text-main-light);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
-}
 
-@theme {
-  --color-canvas-light: #ffffff;
-  --color-canvas-dark: #020617; /* slate-950 */
-  --color-card-dark: rgba(30, 41, 59, 0.4); /* slate-900/40 */
-  --color-border-light: rgba(226, 232, 240, 0.6); /* slate-200/60 */
-  --color-border-dark: rgba(51, 65, 85, 0.6); /* slate-800/60 */
-}
-
-html, body {
-  background-color: var(--color-canvas-light);
-  color: #0f172a;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-html.dark body {
-  background-color: var(--color-canvas-dark);
-  color: #f8fafc;
+  /* Sync body overrides directly when dark class is mounted onto the document root */
+  html.dark body {
+    background-color: var(--canvas-bg-dark);
+    color: var(--text-main-dark);
+  }
 }
